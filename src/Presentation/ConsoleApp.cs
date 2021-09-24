@@ -114,6 +114,7 @@ namespace Presentation
         private static Lodging ManageCreation(string guestType) => guestType switch
         {
             "particular" => new GeneralLodging(),
+            "premium" => new PremiumLodging(),
             _ => new FellowLodging()
         };
 
@@ -122,10 +123,11 @@ namespace Presentation
         {
             const string general = "particular";
             const string fellow  = "miembro";
-            Console.Write("Tipo de huesped (particular/miembro): ");
+            const string premium = "premium";
+            Console.Write("Tipo de huesped (particular/miembro/premium): ");
             string guestType = Console.ReadLine()?.ToLower(CultureInfo.InvariantCulture);
 
-            if (guestType != general && guestType != fellow)
+            if (guestType != general && guestType != fellow && guestType != premium)
                 throw new InvalidUserActionException("Opción inválida");
             return guestType;
         }
