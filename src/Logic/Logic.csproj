@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Data\Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FjordBob.KingAOP" Version="1.0.0" />
+      <PackageReference Include="MrAdvice" Version="2.9.2" />
+    </ItemGroup>
+
+</Project>
