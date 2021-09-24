@@ -57,7 +57,7 @@ namespace Presentation
         {
             return new[]
             {
-                "Registra nueva liquidación", "Consultar todos", "", "Salir"
+                "Registra nueva liquidación", "Consultar todo", "Borrar liquidación", "", "Salir"
             };
         }
 
@@ -65,7 +65,7 @@ namespace Presentation
         {
             return new Func<CancellationToken, Task>[]
             {
-                RegisterNewLodging, ShowAllLodging, Menu.PassAsync, Menu.ExitAsync
+                RegisterNewLodging, ShowAllLodging, DeleteOneLodging, Menu.PassAsync, Menu.ExitAsync
             };
         }
 
@@ -80,6 +80,18 @@ namespace Presentation
         {
             IEnumerable<Lodging> lodgings = await _lodgingService.GetAllLodging(cancellationToken);
             lodgings.ToList().ForEach(Console.WriteLine);
+        }
+
+        [ExceptionPrompter]
+        private async Task DeleteOneLodging(CancellationToken cancellationToken)
+        {
+            Console.WriteLine("Datos originales");
+            await ShowAllLodging(cancellationToken);
+            Console.WriteLine("\n\nBorrar liquidación");
+            int id = ConsoleReader.ReadNumericData("Ingrese el id: ", Convert.ToInt32);
+            await _lodgingService.DeleteById(id, cancellationToken);
+            Console.WriteLine("Datos actualizados");
+            await ShowAllLodging(cancellationToken);
         }
 
         private Lodging CreateLodging()

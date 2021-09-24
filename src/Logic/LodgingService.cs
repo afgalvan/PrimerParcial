@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Data.Contracts;
 using Entities;
+using Logic.Filters;
 
 namespace Logic
 {
@@ -31,6 +32,18 @@ namespace Logic
         {
             IEnumerable<Lodging> lodgings = await _lodgingRepository.GetAll(cancellation);
             return lodgings.Any() ? lodgings.Last().Id + 1 : 0;
+        }
+
+        [RequiredReturn(typeof(Lodging), ErrorMessage = "Liquidación no encontrada")]
+        private async Task<Lodging> GetLodgingById(int id, CancellationToken cancellation)
+        {
+            return await _lodgingRepository.GetWhere(lodging => lodging.Id == id, cancellation);
+        }
+
+        public async Task DeleteById(int id, CancellationToken cancellation)
+        {
+            await GetLodgingById(id, cancellation);
+            await _lodgingRepository.RemoveWhere(lodging => lodging.Id == id, cancellation);
         }
     }
 }
