@@ -57,7 +57,7 @@ namespace Presentation
         {
             return new[]
             {
-                "Registra nueva liquidación", "", "Salir"
+                "Registra nueva liquidación", "Consultar todos", "", "Salir"
             };
         }
 
@@ -65,7 +65,7 @@ namespace Presentation
         {
             return new Func<CancellationToken, Task>[]
             {
-                RegisterNewLodging, Menu.PassAsync, Menu.ExitAsync
+                RegisterNewLodging, ShowAllLodging, Menu.PassAsync, Menu.ExitAsync
             };
         }
 
@@ -73,6 +73,13 @@ namespace Presentation
         private async Task RegisterNewLodging(CancellationToken cancellationToken)
         {
             await _lodgingService.AddLodging(CreateLodging(), cancellationToken);
+        }
+
+        [ExceptionPrompter]
+        private async Task ShowAllLodging(CancellationToken cancellationToken)
+        {
+            IEnumerable<Lodging> lodgings = await _lodgingService.GetAllLodging(cancellationToken);
+            lodgings.ToList().ForEach(Console.WriteLine);
         }
 
         private Lodging CreateLodging()

@@ -20,5 +20,14 @@ namespace Entities
             RoomCapacity.Suite => 6,
             _ => 0
         };
+
+        public static string GetString(this RoomCapacity roomCapacity) => roomCapacity switch
+        {
+            RoomCapacity.Familiar => "Familiar",
+            RoomCapacity.Simple => "Sencilla",
+            RoomCapacity.Doubly => "Doble",
+            RoomCapacity.Suite => "Suite",
+            _ => "Irreconocible"
+        };
     }
 }
