@@ -6,7 +6,7 @@
 
         public override double ComputePriceToPay()
         {
-            return StayDays * (ComputeRoomPrice() * 0.1);
+            return StayDays * (ComputeRoomPrice() * 0.01);
         }
     }
 }
