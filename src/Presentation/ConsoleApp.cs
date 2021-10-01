@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Entities;
 using Logic;
 using Microsoft.Extensions.Hosting;
-using Presentation.Exceptions;
 using Presentation.Filters;
 using Presentation.UIBuilder;
 using Presentation.Utils;
@@ -16,18 +14,21 @@ namespace Presentation
 {
     public class ConsoleApp : IHostedService
     {
-        private readonly BoxBuilder     _boxBuilder;
-        private readonly LodgingService _lodgingService;
+        private readonly BoxBuilder              _boxBuilder;
+        private readonly LodgingService          _lodgingService;
+        private readonly LodgingRegistrationMenu _lodgingRegistration;
 
-        public ConsoleApp(BoxBuilder boxBuilder, LodgingService lodgingService)
+        public ConsoleApp(BoxBuilder boxBuilder, LodgingService lodgingService,
+            LodgingRegistrationMenu lodgingRegistration)
         {
-            _boxBuilder     = boxBuilder;
-            _lodgingService = lodgingService;
+            _boxBuilder          = boxBuilder;
+            _lodgingService      = lodgingService;
+            _lodgingRegistration = lodgingRegistration;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            Menu menu = CreateMenuBuilder().Build();
+            Menu menu = CreateMainMenuBuilder().Build();
             await DisplayMenu(menu, cancellationToken);
         }
 
@@ -41,7 +42,7 @@ namespace Presentation
             }
         }
 
-        private MenuBuilder CreateMenuBuilder()
+        private MenuBuilder CreateMainMenuBuilder()
         {
             IEnumerable<string>                        options = GetMenuOptions();
             IEnumerable<Func<CancellationToken, Task>> actions = GetMenuActions();
@@ -69,99 +70,32 @@ namespace Presentation
             };
         }
 
-        [ExceptionPrompter]
+        [DisplayExceptionForUser]
         private async Task RegisterNewLodging(CancellationToken cancellationToken)
         {
-            await _lodgingService.AddLodging(CreateLodging(), cancellationToken);
+            Lodging lodging = _lodgingRegistration.CreateLodgingFromInput();
+            await _lodgingService.AddLodging(lodging, cancellationToken);
+            Console.WriteLine("\n\nRegistrado.\n");
+            Console.WriteLine(lodging);
         }
 
-        [ExceptionPrompter]
+        [DisplayExceptionForUser]
         private async Task ShowAllLodging(CancellationToken cancellationToken)
         {
             IEnumerable<Lodging> lodgings = await _lodgingService.GetAllLodging(cancellationToken);
             lodgings.ToList().ForEach(Console.WriteLine);
         }
 
-        [ExceptionPrompter]
+        [DisplayExceptionForUser]
         private async Task DeleteOneLodging(CancellationToken cancellationToken)
         {
             Console.WriteLine("Datos originales");
             await ShowAllLodging(cancellationToken);
             Console.WriteLine("\n\nBorrar liquidación");
-            int id = ConsoleReader.ReadNumericData("Ingrese el id: ", Convert.ToInt32);
+            int id = ConsoleReader.ReadFormattedData("Ingrese el id: ", Convert.ToInt32);
             await _lodgingService.DeleteById(id, cancellationToken);
             Console.WriteLine("Datos actualizados");
             await ShowAllLodging(cancellationToken);
-        }
-
-        private Lodging CreateLodging()
-        {
-            string       guestType    = AskGuestType();
-            RoomCapacity capacity     = AskRoomCapacity();
-            int          peopleAmount = AskPeopleAmount(capacity);
-            DateTime     entryDate    = AskDate("Fecha de ingreso: ");
-            DateTime     exitDate     = AskDate("Fecha de salida: ");
-
-            Lodging lodging = ManageCreation(guestType);
-            lodging.RoomCapacity = capacity;
-            lodging.PeopleAmount = peopleAmount;
-            lodging.EntryDate    = entryDate;
-            lodging.ExitDate     = exitDate;
-
-            return lodging;
-        }
-
-        private static Lodging ManageCreation(string guestType) => guestType switch
-        {
-            "particular" => new GeneralLodging(),
-            "premium" => new PremiumLodging(),
-            _ => new FellowLodging()
-        };
-
-        [RepeatOnError]
-        private static string AskGuestType()
-        {
-            const string general = "particular";
-            const string fellow  = "miembro";
-            const string premium = "premium";
-            Console.Write("Tipo de huesped (particular/miembro/premium): ");
-            string guestType = Console.ReadLine()?.ToLower(CultureInfo.InvariantCulture);
-
-            if (guestType != general && guestType != fellow && guestType != premium)
-                throw new InvalidUserActionException("Opción inválida");
-            return guestType;
-        }
-
-        private RoomCapacity AskRoomCapacity()
-        {
-            string[] options = { "Familiar", "Sencilla", "Doble", "Suite", "", "" };
-
-            Menu menu = new MenuBuilder(_boxBuilder)
-                .WithTitle("Tipo de habitación")
-                .WithOptions(options)
-                .WithQuestion("Ingrese una opcion: ")
-                .Build();
-
-            int choice = menu.DisplayAndRead();
-            RoomCapacity[] capacities = Enum.GetValues(typeof(RoomCapacity))
-                .Cast<RoomCapacity>()
-                .ToArray();
-
-            return capacities[choice - 1];
-        }
-
-        private static int AskPeopleAmount(RoomCapacity roomCapacity)
-        {
-            int max   = roomCapacity.MaxCapacity();
-            var range = new ARange(1, max);
-            int peopleAmount = ConsoleReader.ReadNumericData($"Cantidad de huespedes (max {max}): ",
-                Convert.ToInt32, range);
-            return peopleAmount;
-        }
-
-        private static DateTime AskDate(string question)
-        {
-            return ConsoleReader.ReadNumericData(question, Convert.ToDateTime);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

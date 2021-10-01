@@ -3,7 +3,7 @@ using ArxOne.MrAdvice.Advice;
 
 namespace Presentation.Filters
 {
-    public class RepeatOnErrorAttribute : ErrorHandlingAttribute, IMethodAdvice
+    public class RepeatOnExceptionAttribute : ErrorHandlingAttribute, IMethodAdvice
     {
         public void Advise(MethodAdviceContext context)
         {

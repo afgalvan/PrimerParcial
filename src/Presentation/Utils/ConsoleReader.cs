@@ -7,8 +7,8 @@ namespace Presentation.Utils
 {
     public static class ConsoleReader
     {
-        [RepeatOnError]
-        public static TNumeric ReadNumericData<TNumeric>(string question,
+        [RepeatOnException]
+        public static TNumeric ReadFormattedData<TNumeric>(string question,
             Func<string, CultureInfo, TNumeric> parsing, ARange? range = null)
         {
             Console.Write(question);
@@ -20,7 +20,7 @@ namespace Presentation.Utils
         {
             try
             {
-                TNumeric number = parsing(Console.ReadLine(), CultureInfo.InvariantCulture);
+                TNumeric number = parsing(Console.ReadLine(), CultureInfo.CurrentUICulture);
                 return GetIfWithinRange(number, range);
             }
             catch (FormatException e)

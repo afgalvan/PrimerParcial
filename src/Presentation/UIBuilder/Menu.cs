@@ -81,7 +81,7 @@ namespace Presentation.UIBuilder
         private int ReadUserChoice()
         {
             var range = new ARange(0, Options.Count() - 2);
-            return ConsoleReader.ReadNumericData(Question, Convert.ToInt32, range);
+            return ConsoleReader.ReadFormattedData(Question, Convert.ToInt32, range);
         }
 
         private void ClearConsoleIfPossible()
