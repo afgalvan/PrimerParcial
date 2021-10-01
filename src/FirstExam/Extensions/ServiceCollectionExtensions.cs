@@ -32,8 +32,9 @@ namespace FirstExam.Extensions
 
         public static void AddPresentationDependencies(this IServiceCollection services)
         {
-            services.AddTransient<BoxBuilder>();
+            services.AddScoped<BoxBuilder>();
             services.AddScoped<MenuBuilder>();
+            services.AddScoped<LodgingRegistrationMenu>();
             services.AddHostedService<ConsoleApp>();
         }
     }
