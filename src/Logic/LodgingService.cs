@@ -22,6 +22,7 @@ namespace Logic
             return await _lodgingRepository.GetAll(cancellation);
         }
 
+        [RequiredArguments(ErrorMessage = "Datos de liquidación inválidos.")]
         public async Task AddLodging(Lodging lodging, CancellationToken cancellation)
         {
             lodging.Id = await GenerateId(cancellation);
@@ -34,7 +35,7 @@ namespace Logic
             return lodgings.Any() ? lodgings.Last().Id + 1 : 0;
         }
 
-        [RequiredReturn(typeof(Lodging), ErrorMessage = "Liquidación no encontrada")]
+        [RequiredReturn(typeof(Lodging), ErrorMessage = "Liquidación no encontrada.")]
         private async Task<Lodging> GetLodgingById(int id, CancellationToken cancellation)
         {
             return await _lodgingRepository.GetWhere(lodging => lodging.Id == id, cancellation);
