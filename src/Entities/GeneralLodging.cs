@@ -6,7 +6,7 @@
 
         public override double ComputePriceToPay()
         {
-            return StayDays * (ComputeRoomPrice() * GetAdditionalPercentage());
+            return StayDays * (GetRoomPrice() * GetAdditionalPercentage());
         }
 
         private double GetAdditionalPercentage() => StayDays switch

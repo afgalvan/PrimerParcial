@@ -13,7 +13,7 @@
         public override double ComputePriceToPay()
         {
             double payByTime = HasPassedIsFreeDays() ? ComputeRegularPay() : 0;
-            return payByTime + GetAdditionalPeoplePay() * StayDays;
+            return payByTime + GetAdditionalPeopleFee() * StayDays;
         }
 
         private double ComputeRegularPay()
@@ -25,20 +25,20 @@
 
         private double ComputeRegularPayForSuite()
         {
-            return OutOfLimitDays * ComputeRoomPrice() * 1.05;
+            return OutOfLimitDays * GetRoomPrice() * 1.05;
         }
 
         private double ComputeRegularPayForAnyRoom()
         {
-            return StayDays * ComputeRoomPrice() * 1.02;
+            return StayDays * GetRoomPrice() * 1.02;
         }
 
         private bool HasPassedIsFreeDays() => StayDays > FreeDays;
 
-        private double GetAdditionalPeoplePay() => OutOfLimitGuests switch
+        private double GetAdditionalPeopleFee() => OutOfLimitGuests switch
         {
             1 => 100,
-            > 1 and < 4 => 200,
+            >= 2 and <= 3 => 200,
             >= 4 and <= 6 => 300,
             _ => 0
         };

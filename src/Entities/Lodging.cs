@@ -13,7 +13,7 @@ namespace Entities
 
         private readonly double[] _prices = { 2000, 4000, 6000, 12_000 };
 
-        public double ComputeRoomPrice()
+        public double GetRoomPrice()
         {
             int currentRoomIndex = GetRoomIndex();
             return _prices[currentRoomIndex];
