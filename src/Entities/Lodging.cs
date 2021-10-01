@@ -30,7 +30,7 @@ namespace Entities
         public override string ToString()
         {
             return
-                $"Id: {Id}\nTipo de huesped: {GuestType()}\nTipo de habitación: {RoomCapacity.GetString()}\nFecha de ingreso: {EntryDate}\nFecha de salida: {ExitDate}\nCupos: {PeopleAmount}\nDías de hospedaje: {StayDays}\nLiquidación: {ComputePriceToPay()}\n{new string('-', 30)}\n";
+                $"Id: {Id}\nTipo de huesped: {GuestType()}\nTipo de habitación: {RoomCapacity.GetString()}\nFecha de ingreso: {EntryDate}\nFecha de salida: {ExitDate}\nCupos: {PeopleAmount}\nDías de hospedaje: {StayDays}\nLiquidación: ${ComputePriceToPay()}\n{new string('-', 30)}\n";
         }
     }
 }
