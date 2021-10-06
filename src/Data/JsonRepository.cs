@@ -24,10 +24,9 @@ namespace Data
 
         public async Task Add(TEntity entity, CancellationToken cancellation)
         {
-            List<TEntity> paymentsUpdated = (await GetAll(cancellation)).ToList();
-            paymentsUpdated.Add(entity);
-            var updateContent = new UpdateContent<TEntity>(_filePath, paymentsUpdated);
-            await _fileUpdater.UpdateFileWith(updateContent, cancellation);
+            List<TEntity> entitiesUpdated = (await GetAll(cancellation)).ToList();
+            entitiesUpdated.Add(entity);
+            await SaveAll(entitiesUpdated, cancellation);
         }
 
         public async Task<IEnumerable<TEntity>> GetAll(CancellationToken cancellation)
