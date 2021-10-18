@@ -1,4 +1,4 @@
-﻿using FirstExam.Extensions;
+using FirstExam.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +17,7 @@ namespace FirstExam
         {
             services.AddDataDependencies();
             services.AddLogicDependencies();
+            services.AddPresentationDependencies();
             Configuration.GetReloadToken();
         }
     }

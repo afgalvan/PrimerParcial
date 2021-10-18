@@ -7,8 +7,22 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Assets\Icons\hotel.png" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="MaterialDesignThemes" Version="4.2.1" />
+      <PackageReference Include="MaterialMessageBox" Version="4.0.2" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Logic\Logic.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Assets\Icons\hotel.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
+    </ItemGroup>
 </Project>

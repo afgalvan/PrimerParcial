@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using Microsoft.Extensions.Hosting;
 using Presentation;
@@ -24,6 +24,7 @@ namespace FirstExam.Extensions
         private static void StartWpfApplication(IHost host)
         {
             var app = new App();
+            app.ServiceProvider = host.Services;
             app.InitializeComponent();
             app.Exit += (_, _) => StopHost(host);
             app.Run();

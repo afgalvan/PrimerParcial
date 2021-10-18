@@ -5,6 +5,7 @@ using Data.Utils;
 using Logic;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Presentation;
 
 namespace FirstExam.Extensions
 {
@@ -26,6 +27,11 @@ namespace FirstExam.Extensions
         public static void AddLogicDependencies(this IServiceCollection services)
         {
             services.AddScoped<LodgingService>();
+        }
+
+        public static void AddPresentationDependencies(this IServiceCollection services)
+        {
+            services.AddSingleton<MainWindow>();
         }
     }
 }

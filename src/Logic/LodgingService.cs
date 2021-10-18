@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,6 +45,16 @@ namespace Logic
         {
             await GetLodgingById(id, cancellation);
             await _lodgingRepository.RemoveWhere(lodging => lodging.Id == id, cancellation);
+        }
+
+        public IEnumerable<string> GetAvailableGuestTypes()
+        {
+            return new[] { "Particular", "Miembro", "Premium" };
+        }
+
+        public IEnumerable<string> GetAvailableRooms()
+        {
+            return new[] { "Familiar", "Sencilla", "Doble", "Suite", };
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace Entities
+using System;
+using System.Linq;
+
+namespace Entities
 {
     public enum RoomCapacity : byte
     {
