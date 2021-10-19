@@ -15,8 +15,6 @@
                 Click="RegisterLodgingButton_Click" />
         <Button x:Name="GetAllButton" Content="Consultar" HorizontalAlignment="Left"
                 Margin="232,7,0,0" VerticalAlignment="Top" Click="GetAllButton_Click" />
-        <Button x:Name="DeleteButton" Content="Borrar liquidación" HorizontalAlignment="Left"
-                Margin="370,7,0,0" VerticalAlignment="Top" Click="DeleteButton_Click" />
         <materialDesign:PopupBox Content="PopupBox" Margin="756,7,0,0" VerticalAlignment="Top"
                                  HorizontalAlignment="Right" />
         <Grid Margin="302,123,302,123" HorizontalAlignment="Center" VerticalAlignment="Center">

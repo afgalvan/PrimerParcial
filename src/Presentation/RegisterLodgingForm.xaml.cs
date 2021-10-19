@@ -53,6 +53,13 @@ namespace Presentation
             RoomPrice.Text       = $"${lodging.GetRoomPrice()}";
         }
 
+        private void UpdateDatesInformation(object sender, EventArgs e)
+        {
+            UpdatePriceToPay(sender, e);
+            ExitDate.DisplayDateStart = GetExitDate();
+            StayDays.Text = $"{GetStayDays()}";
+        }
+
         private void UpdatePriceToPay(object sender, EventArgs e)
         {
             PriceToPay.Text = $"${GetPriceToPay()}";
@@ -110,6 +117,7 @@ namespace Presentation
             ExitDate.Text                   = string.Empty;
             PriceToPay.Text                 = string.Empty;
             RoomPrice.Text                  = string.Empty;
+            StayDays.Text                   = string.Empty;
             FillRoomsCapacities();
         }
 
@@ -123,6 +131,31 @@ namespace Presentation
             catch (FormatException)
             {
                 return 0;
+            }
+        }
+
+        private int GetStayDays()
+        {
+            try
+            {
+                Lodging lodging = MapFormToLodging();
+                return lodging.StayDays;
+            }
+            catch (FormatException)
+            {
+                return 0;
+            }
+        }
+
+        private DateTime? GetExitDate()
+        {
+            try
+            {
+                return Convert.ToDateTime(EntryDate.Text, CultureInfo.CurrentCulture).AddDays(1);
+            }
+            catch (FormatException)
+            {
+                return null;
             }
         }
     }

@@ -27,9 +27,5 @@ namespace Presentation
             var lodgingTable = new LodgingsTable(_lodgingService);
             lodgingTable.ShowDialog();
         }
-
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
     }
 }

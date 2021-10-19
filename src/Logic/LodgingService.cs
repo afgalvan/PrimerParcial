@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Data.Contracts;
 using Entities;
+using Logic.Exceptions;
 using Logic.Filters;
 
 namespace Logic
@@ -25,6 +26,10 @@ namespace Logic
         [RequiredArguments(ErrorMessage = "Datos de liquidación inválidos.")]
         public async Task AddLodging(Lodging lodging, CancellationToken cancellation)
         {
+            if (lodging.StayDays < 1)
+            {
+                throw new InvalidArgumentException("Días de estancia inválidos");
+            }
             lodging.Id = await GenerateId(cancellation);
             await _lodgingRepository.Add(lodging, cancellation);
         }
