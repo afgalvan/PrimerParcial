@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Logic;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 
 namespace Presentation
 {
@@ -19,9 +10,17 @@ namespace Presentation
     /// </summary>
     public partial class LodgingsTable : Window
     {
-        public LodgingsTable()
+        private readonly LodgingService _lodgingService;
+
+        public LodgingsTable(LodgingService lodgingService)
         {
             InitializeComponent();
+            _lodgingService = lodgingService;
+        }
+
+        private async void LoadTableInformation(object sender, EventArgs e)
+        {
+            Table.ItemsSource = await _lodgingService.GetAllLodging(App.CancellationToken);
         }
     }
 }

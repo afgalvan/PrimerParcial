@@ -8,7 +8,7 @@
         private int OutOfLimitGuests => PeopleAmount - FreeGuests;
         private int OutOfLimitDays   => StayDays - FreeDays;
 
-        public override string GuestType() => "Socio";
+        public override string GetGuestType() => "Socio";
 
         public override double ComputePriceToPay()
         {

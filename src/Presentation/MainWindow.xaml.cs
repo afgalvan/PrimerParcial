@@ -9,6 +9,7 @@ namespace Presentation
     public partial class MainWindow : Window
     {
         private readonly LodgingService _lodgingService;
+
         public MainWindow(LodgingService lodgingService)
         {
             _lodgingService = lodgingService;
@@ -23,7 +24,8 @@ namespace Presentation
 
         private void GetAllButton_Click(object sender, RoutedEventArgs e)
         {
-            new MessageBoxCustom("Titulo", "Liquidación registrada con éxito.", MessageType.Error, MessageButtons.Ok).ShowDialog();
+            var lodgingTable = new LodgingsTable(_lodgingService);
+            lodgingTable.Show();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)

@@ -1,20 +1,21 @@
-using BespokeFusion;
 using Entities;
 using Entities.Factories;
 using Logic;
+using Presentation.Filters;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace Presentation
 {
     public partial class RegisterLodgingForm : Window
     {
         private readonly LodgingService _lodgingService;
-        private RoomCapacity RoomCapacity { get; set; }
+        private          RoomCapacity   RoomCapacity { get; set; }
 
         public RegisterLodgingForm(LodgingService lodgingService)
         {
@@ -33,14 +34,33 @@ namespace Presentation
             GuestsAmountComboBox.IsEditable = false;
         }
 
+        private void UpdateRoomInformation(object sender, SelectionChangedEventArgs e)
+        {
+            FillRoomsCapacities();
+            UpdateRoomPrice();
+            UpdatePriceToPay(sender, e);
+        }
+
         private void FillRoomsCapacities()
         {
             GuestsAmountComboBox.ItemsSource = GenerateRoomsCapacities();
         }
 
-        private void UpdateRoomsCapacities(object sender, SelectionChangedEventArgs e)
+        private void UpdateRoomPrice()
         {
-            FillRoomsCapacities();
+            Lodging lodging = GetCurrentLodging();
+            lodging.RoomCapacity = RoomCapacity;
+            RoomPrice.Text = $"${lodging.GetRoomPrice()}";
+        }
+
+        private void UpdatePriceToPay(object sender, SelectionChangedEventArgs e)
+        {
+            PriceToPay.Text = $"${GetPriceToPay()}";
+        }
+
+        private void UpdatePriceToPay(object sender, EventArgs e)
+        {
+            PriceToPay.Text = $"${GetPriceToPay()}";
         }
 
         private IEnumerable<int> GenerateRoomsCapacities()
@@ -51,19 +71,61 @@ namespace Presentation
 
         private async void Register_Click(object sender, RoutedEventArgs e)
         {
-            await _lodgingService.AddLodging(MapFormToLodging(), App.CancellationToken);
-            // MaterialDialog.ShowOk("Registrar liquidación", "Liquidación registrada con éxito.", "Aceptar");
+            await RegisterLodgingFromForm();
+        }
+
+        [DisplayOnException("Registrar liquidación")]
+        private async Task RegisterLodgingFromForm()
+        {
+            Lodging lodging = MapFormToLodging();
+            await RegisterLodging(lodging);
+            MaterialDialog.ShowSucceed("Registrar liquidación", "Liquidación registrada con éxito.");
+            ClearFields();
+        }
+
+        private Lodging GetCurrentLodging()
+        {
+            return LodgingFactory.CreateLodging(GuestTypeComboBox.Text.ToLower(CultureInfo.CurrentCulture));
         }
 
         private Lodging MapFormToLodging()
         {
-            Lodging lodging = LodgingFactory.CreateLodging(GuestTypeComboBox.Text.ToLower());
+            Lodging lodging = GetCurrentLodging();
             lodging.RoomCapacity = RoomCapacity;
-            lodging.PeopleAmount = Convert.ToInt32(GuestsAmountComboBox.Text);
-            lodging.EntryDate = Convert.ToDateTime(EntryDate.Text);
-            lodging.ExitDate = Convert.ToDateTime(ExitDate.Text);
+            lodging.PeopleAmount = Convert.ToInt32(GuestsAmountComboBox.Text, CultureInfo.CurrentCulture);
+            lodging.EntryDate = Convert.ToDateTime(EntryDate.Text, CultureInfo.CurrentCulture);
+            lodging.ExitDate  = Convert.ToDateTime(ExitDate.Text, CultureInfo.CurrentCulture);
 
             return lodging;
+        }
+
+        private async Task RegisterLodging(Lodging lodging)
+        {
+            await _lodgingService.AddLodging(lodging, App.CancellationToken);
+        }
+
+        private void ClearFields()
+        {
+            GuestTypeComboBox.SelectedIndex = 0;
+            RoomTypeComboBox.SelectedIndex = 0;
+            EntryDate.Text = string.Empty;
+            ExitDate.Text = string.Empty;
+            PriceToPay.Text = string.Empty;
+            RoomPrice.Text = string.Empty;
+            FillRoomsCapacities();
+        }
+
+        private double GetPriceToPay()
+        {
+            try
+            {
+                Lodging lodging = MapFormToLodging();
+                return lodging.ComputePriceToPay();
+            }
+            catch (FormatException)
+            {
+                return 0;
+            }
         }
     }
 }

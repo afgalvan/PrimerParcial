@@ -8,27 +8,29 @@ namespace Presentation
     /// </summary>
     public partial class MessageBoxCustom : Window
     {
-        private SolidColorBrush Color { get; set; }
+        private SolidColorBrush Color { get; }
 
-        public MessageBoxCustom(string title, string message, MessageType messageType, MessageButtons buttons)
+        public MessageBoxCustom(string title, string message, MessageType messageType,
+            MessageButtons buttons)
         {
             InitializeComponent();
-            Color = SetupColors(messageType);
-            cardHeader.Background = Color;
-            btnCancel.Background = Color;
-            btnOk.Background = Color;
-            txtMessage.Text = message;
-            txtTitle.Text = title;
+            Color                   = SetupColors(messageType);
+            Title.Text = title;
+            TextMessage.Text = message;
+            TextMessage.CaretBrush = Color;
+            CardHeader.Background   = Color;
+            CancelButton.Background = Color;
+            OkButton.Background = Color;
             if (buttons == MessageButtons.Ok)
             {
-                btnCancel.Visibility = Visibility.Collapsed;
+                CancelButton.Visibility = Visibility.Collapsed;
             }
         }
 
-        public SolidColorBrush SetupColors(MessageType messageType) => messageType switch
+        private static SolidColorBrush SetupColors(MessageType messageType) => messageType switch
         {
-            MessageType.Success => Brushes.Green,
-            MessageType.Info => Brushes.AliceBlue,
+            MessageType.Success => Brushes.LimeGreen,
+            MessageType.Information => Brushes.RoyalBlue,
             MessageType.Error => Brushes.Red,
             MessageType.Warning => Brushes.Yellow,
             _ => Brushes.White
@@ -55,7 +57,7 @@ namespace Presentation
 
     public enum MessageType
     {
-        Info,
+        Information,
         Success,
         Warning,
         Error,

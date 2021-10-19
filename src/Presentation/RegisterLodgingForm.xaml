@@ -6,29 +6,46 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Icon="Assets\Icons\hotel.png"
         mc:Ignorable="d"
-        Title="Registrar liquidación" Height="470" Width="400" WindowState="Normal" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen">
+        Title="Registrar liquidación" Height="470" Width="749" WindowState="Normal"
+        WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen">
     <Grid Margin="0,0,0,0">
-        <Label Content="Tipo de huesped" HorizontalAlignment="Left" Margin="55,95,0,0"
+        <Label Content="Tipo de huesped" HorizontalAlignment="Left" Margin="65,95,0,0"
                VerticalAlignment="Top" />
-        <ComboBox x:Name="GuestTypeComboBox" HorizontalAlignment="Left" Margin="225,90,0,0"
-                  VerticalAlignment="Top" Width="120" IsEditable="True" SelectedIndex="0" />
-        <Label Content="Tipo de habitación" HorizontalAlignment="Left" Margin="55,144,0,0"
+        <ComboBox x:Name="GuestTypeComboBox" HorizontalAlignment="Left" Margin="235,90,0,0"
+                  VerticalAlignment="Top" Width="120" IsEditable="True" SelectedIndex="0"
+                  SelectionChanged="UpdatePriceToPay" DropDownClosed="UpdatePriceToPay" />
+        <Label Content="Tipo de habitación" HorizontalAlignment="Left" Margin="65,144,0,0"
+               VerticalAlignment="Top" />
+        <ComboBox x:Name="RoomTypeComboBox" HorizontalAlignment="Left" Margin="235,139,0,0"
+                  VerticalAlignment="Top" Width="120" IsEditable="True" SelectedIndex="0"
+                  SelectionChanged="UpdateRoomInformation" DropDownClosed="UpdatePriceToPay" />
+        <Label Content="Cantidad de huespedes" HorizontalAlignment="Left" Margin="65,199,0,0"
+               VerticalAlignment="Top" />
+        <ComboBox x:Name="GuestsAmountComboBox" HorizontalAlignment="Left" Margin="235,194,0,0"
+                  VerticalAlignment="Top" Width="120" IsEditable="True" SelectedIndex="0"
+                  SelectionChanged="UpdatePriceToPay" DropDownClosed="UpdatePriceToPay" />
+        <Rectangle HorizontalAlignment="Stretch" Height="7" Stroke="Black" VerticalAlignment="Bottom" StrokeThickness="0" Fill="{DynamicResource PrimaryHueDarkBrush}"
+                   Margin="0,427,0,0" />
+        <Label Content="Fecha de ingreso" HorizontalAlignment="Left" Margin="65,248,0,0"
+               VerticalAlignment="Top" />
+        <DatePicker x:Name="EntryDate" HorizontalAlignment="Left" Margin="235,242,0,0"
+                    VerticalAlignment="Top" Width="120" SelectedDateChanged="UpdatePriceToPay" />
+        <DatePicker x:Name="ExitDate" HorizontalAlignment="Left" Margin="235,291,0,0"
+                    VerticalAlignment="Top" Width="120" SelectedDateChanged="UpdatePriceToPay" />
+        <Label Content="Fecha de salida" HorizontalAlignment="Left" Margin="65,297,0,0"
+               VerticalAlignment="Top" />
+        <materialDesign:Chip Content="Registrar liquidación" Margin="0,41,0,0"
+                             VerticalAlignment="Top" HorizontalAlignment="Center" Width="639"
+                             IconForeground="#DDFFFFFF"
+                             Background="{DynamicResource PrimaryHueMidBrush}" FontWeight="Bold"
+                             FontFamily="Trebuchet MS" FontSize="11 pt" Foreground="White" />
+        <Button Content="Registrar" HorizontalAlignment="Left" Margin="559,356,0,0"
+                VerticalAlignment="Top" Width="120" Click="Register_Click" />
+        <Label Content="Precio a pagar" HorizontalAlignment="Left" Margin="407,95,0,0"
             VerticalAlignment="Top" />
-        <ComboBox x:Name="RoomTypeComboBox" HorizontalAlignment="Left" Margin="225,139,0,0"
-            VerticalAlignment="Top" Width="120" IsEditable="True" SelectedIndex="0" SelectionChanged="UpdateRoomsCapacities" />
-        <Label Content="Cantidad de huespedes" HorizontalAlignment="Left" Margin="55,199,0,0"
+        <Label Content="Precio de habitación" HorizontalAlignment="Left" Margin="407,144,0,0"
             VerticalAlignment="Top" />
-        <ComboBox x:Name="GuestsAmountComboBox" HorizontalAlignment="Left" Margin="225,194,0,0"
-            VerticalAlignment="Top" Width="120" IsEditable="True" SelectedIndex="0" />
-        <Rectangle HorizontalAlignment="Center" Height="7" Stroke="Black" VerticalAlignment="Top" Width="400" StrokeThickness="0" Fill="{DynamicResource PrimaryHueDarkBrush}" Margin="0,415,0,0"/>
-        <Rectangle HorizontalAlignment="Center" Height="7" Stroke="Black" VerticalAlignment="Top" Width="400" StrokeThickness="0" Fill="{DynamicResource PrimaryHueDarkBrush}" Margin="0,427,0,0"/>
-        <Label Content="Fecha de ingreso" HorizontalAlignment="Left" Margin="55,248,0,0"
-            VerticalAlignment="Top" />
-        <DatePicker x:Name="EntryDate" HorizontalAlignment="Left" Margin="225,242,0,0" VerticalAlignment="Top" Width="120"/>
-        <DatePicker x:Name="ExitDate" HorizontalAlignment="Left" Margin="225,291,0,0" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Fecha de salida" HorizontalAlignment="Left" Margin="55,297,0,0"
-            VerticalAlignment="Top" />
-        <materialDesign:Chip Content="Registrar liquidación" Margin="0,41,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="290" IconForeground="#DDFFFFFF" Background="{DynamicResource PrimaryHueDarkBrush}" FontWeight="Bold" FontFamily="Trebuchet MS" FontSize="11 pt" Foreground="White"/>
-        <Button Content="Registrar" HorizontalAlignment="Left" Margin="225,359,0,0" VerticalAlignment="Top" Width="120" Click="Register_Click"/>
+        <TextBox x:Name="PriceToPay" IsReadOnly="True" HorizontalAlignment="Left" Margin="559,90,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnlyCaretVisible="True" IsEnabled="False"/>
+        <TextBox x:Name="RoomPrice" IsReadOnly="True" HorizontalAlignment="Left" Margin="559,139,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnlyCaretVisible="True" IsEnabled="False"/>
     </Grid>
 </Window>

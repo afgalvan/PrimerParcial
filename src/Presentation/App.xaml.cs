@@ -10,7 +10,7 @@ namespace Presentation
     /// </summary>
     public partial class App
     {
-        public IServiceProvider ServiceProvider { get; set; }
+        public        IServiceProvider  ServiceProvider   { get; set; }
         public static CancellationToken CancellationToken { get; }
 
         public App()

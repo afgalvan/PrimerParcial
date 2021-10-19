@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Entities
 {
@@ -10,6 +10,9 @@ namespace Entities
         public DateTime     ExitDate     { get; set; }
         public RoomCapacity RoomCapacity { get; set; }
         public int          StayDays     => (ExitDate - EntryDate).Days;
+        public double RoomPrice => GetRoomPrice();
+        public string GuestType => GetGuestType();
+        public double PriceToPay => ComputePriceToPay();
 
         private readonly double[] _prices = { 2000, 4000, 6000, 12_000 };
 
@@ -24,13 +27,13 @@ namespace Entities
             return (int)RoomCapacity;
         }
 
-        public abstract string GuestType();
+        public abstract string GetGuestType();
         public abstract double ComputePriceToPay();
 
         public override string ToString()
         {
             return
-                $"Id: {Id}\nTipo de huesped: {GuestType()}\nTipo de habitación: {RoomCapacity.GetString()}\nFecha de ingreso: {EntryDate}\nFecha de salida: {ExitDate}\nCupos: {PeopleAmount}\nDías de hospedaje: {StayDays}\nLiquidación: ${ComputePriceToPay()}\n{new string('-', 30)}\n";
+                $"Id: {Id}\nTipo de huesped: {GetGuestType()}\nTipo de habitación: {RoomCapacity.AsString()}\nFecha de ingreso: {EntryDate}\nFecha de salida: {ExitDate}\nCupos: {PeopleAmount}\nDías de hospedaje: {StayDays}\nLiquidación: ${ComputePriceToPay()}\n{new string('-', 30)}\n";
         }
     }
 }
