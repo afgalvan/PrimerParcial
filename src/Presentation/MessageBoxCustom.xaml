@@ -27,7 +27,7 @@
             </Grid.RowDefinitions>
             <materialDesign:Card x:Name="CardHeader" Grid.Row="0" Padding="10" Margin="0" materialDesign:ShadowAssist.ShadowDepth="Depth3" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Grid.ColumnSpan="2">
                 <StackPanel>
-                    <TextBlock x:Name="Title" HorizontalAlignment="Center" VerticalAlignment="Stretch" Style="{DynamicResource MaterialDesignTitleTextBlock}" FontSize="20" >Message Title</TextBlock>
+                    <TextBlock x:Name="DialogTitle" HorizontalAlignment="Center" VerticalAlignment="Stretch" Style="{DynamicResource MaterialDesignTitleTextBlock}" FontSize="20" >Message Title</TextBlock>
                 </StackPanel>
             </materialDesign:Card>
             <StackPanel HorizontalAlignment="Right" Margin="0,5,5,0"  VerticalAlignment="Top" Grid.Column="1">

@@ -27,7 +27,7 @@ namespace Entities
             return (int)RoomCapacity;
         }
 
-        public abstract string GetGuestType();
+        protected abstract string GetGuestType();
         public abstract double ComputePriceToPay();
 
         public override string ToString()

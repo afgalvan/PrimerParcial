@@ -19,13 +19,13 @@ namespace Presentation
         private void RegisterLodgingButton_Click(object sender, RoutedEventArgs e)
         {
             var registerLodgingForm = new RegisterLodgingForm(_lodgingService);
-            registerLodgingForm.Show();
+            registerLodgingForm.ShowDialog();
         }
 
         private void GetAllButton_Click(object sender, RoutedEventArgs e)
         {
             var lodgingTable = new LodgingsTable(_lodgingService);
-            lodgingTable.Show();
+            lodgingTable.ShowDialog();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)

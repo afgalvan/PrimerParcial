@@ -23,8 +23,10 @@ namespace FirstExam.Extensions
 
         private static void StartWpfApplication(IHost host)
         {
-            var app = new App();
-            app.ServiceProvider = host.Services;
+            var app = new App
+            {
+                ServiceProvider = host.Services
+            };
             app.InitializeComponent();
             app.Exit += (_, _) => StopHost(host);
             app.Run();

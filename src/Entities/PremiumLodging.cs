@@ -2,7 +2,7 @@
 {
     public class PremiumLodging : Lodging
     {
-        public override string GetGuestType() => "Premium";
+        protected override string GetGuestType() => "Premium";
 
         public override double ComputePriceToPay()
         {

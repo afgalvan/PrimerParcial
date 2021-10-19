@@ -2,7 +2,7 @@
 {
     public class GeneralLodging : Lodging
     {
-        public override string GetGuestType() => "Particular";
+        protected override string GetGuestType() => "Particular";
 
         public override double ComputePriceToPay()
         {

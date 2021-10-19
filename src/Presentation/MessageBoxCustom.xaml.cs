@@ -15,12 +15,12 @@ namespace Presentation
         {
             InitializeComponent();
             Color                   = SetupColors(messageType);
-            Title.Text = title;
-            TextMessage.Text = message;
-            TextMessage.CaretBrush = Color;
+            DialogTitle.Text              = title;
+            TextMessage.Text        = message;
+            TextMessage.CaretBrush  = Color;
             CardHeader.Background   = Color;
             CancelButton.Background = Color;
-            OkButton.Background = Color;
+            OkButton.Background     = Color;
             if (buttons == MessageButtons.Ok)
             {
                 CancelButton.Visibility = Visibility.Collapsed;

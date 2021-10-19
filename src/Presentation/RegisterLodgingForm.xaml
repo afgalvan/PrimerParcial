@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Icon="Assets\Icons\hotel.png"
+        Topmost="True" ShowInTaskbar="False"
         mc:Ignorable="d"
         Title="Registrar liquidación" Height="470" Width="749" WindowState="Normal"
         WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen">

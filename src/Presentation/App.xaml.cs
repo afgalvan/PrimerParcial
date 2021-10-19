@@ -11,10 +11,11 @@ namespace Presentation
     public partial class App
     {
         public        IServiceProvider  ServiceProvider   { get; set; }
-        public static CancellationToken CancellationToken { get; }
+        public static CancellationToken CancellationToken { get; private set; }
 
         public App()
         {
+            CancellationToken = new CancellationToken();
         }
 
         protected override void OnStartup(StartupEventArgs e)

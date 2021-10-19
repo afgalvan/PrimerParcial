@@ -50,12 +50,7 @@ namespace Presentation
         {
             Lodging lodging = GetCurrentLodging();
             lodging.RoomCapacity = RoomCapacity;
-            RoomPrice.Text = $"${lodging.GetRoomPrice()}";
-        }
-
-        private void UpdatePriceToPay(object sender, SelectionChangedEventArgs e)
-        {
-            PriceToPay.Text = $"${GetPriceToPay()}";
+            RoomPrice.Text       = $"${lodging.GetRoomPrice()}";
         }
 
         private void UpdatePriceToPay(object sender, EventArgs e)
@@ -79,20 +74,23 @@ namespace Presentation
         {
             Lodging lodging = MapFormToLodging();
             await RegisterLodging(lodging);
-            MaterialDialog.ShowSucceed("Registrar liquidación", "Liquidación registrada con éxito.");
+            MaterialDialog.ShowSucceed("Registrar liquidación",
+                "Liquidación registrada con éxito.");
             ClearFields();
         }
 
         private Lodging GetCurrentLodging()
         {
-            return LodgingFactory.CreateLodging(GuestTypeComboBox.Text.ToLower(CultureInfo.CurrentCulture));
+            return LodgingFactory.CreateLodging(
+                GuestTypeComboBox.Text.ToLower(CultureInfo.CurrentCulture));
         }
 
         private Lodging MapFormToLodging()
         {
             Lodging lodging = GetCurrentLodging();
             lodging.RoomCapacity = RoomCapacity;
-            lodging.PeopleAmount = Convert.ToInt32(GuestsAmountComboBox.Text, CultureInfo.CurrentCulture);
+            lodging.PeopleAmount =
+                Convert.ToInt32(GuestsAmountComboBox.Text, CultureInfo.CurrentCulture);
             lodging.EntryDate = Convert.ToDateTime(EntryDate.Text, CultureInfo.CurrentCulture);
             lodging.ExitDate  = Convert.ToDateTime(ExitDate.Text, CultureInfo.CurrentCulture);
 
@@ -107,11 +105,11 @@ namespace Presentation
         private void ClearFields()
         {
             GuestTypeComboBox.SelectedIndex = 0;
-            RoomTypeComboBox.SelectedIndex = 0;
-            EntryDate.Text = string.Empty;
-            ExitDate.Text = string.Empty;
-            PriceToPay.Text = string.Empty;
-            RoomPrice.Text = string.Empty;
+            RoomTypeComboBox.SelectedIndex  = 0;
+            EntryDate.Text                  = string.Empty;
+            ExitDate.Text                   = string.Empty;
+            PriceToPay.Text                 = string.Empty;
+            RoomPrice.Text                  = string.Empty;
             FillRoomsCapacities();
         }
 
