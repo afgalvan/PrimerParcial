@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Data.Contracts;
 using Entities;
+using Logic.Exceptions;
 using Logic.Filters;
 
 namespace Logic
@@ -22,8 +23,13 @@ namespace Logic
             return await _lodgingRepository.GetAll(cancellation);
         }
 
+        [RequiredArguments(ErrorMessage = "Datos de liquidación inválidos.")]
         public async Task AddLodging(Lodging lodging, CancellationToken cancellation)
         {
+            if (lodging.StayDays < 1)
+            {
+                throw new InvalidArgumentException("Días de estancia inválidos");
+            }
             lodging.Id = await GenerateId(cancellation);
             await _lodgingRepository.Add(lodging, cancellation);
         }
@@ -34,7 +40,7 @@ namespace Logic
             return lodgings.Any() ? lodgings.Last().Id + 1 : 0;
         }
 
-        [RequiredReturn(typeof(Lodging), ErrorMessage = "Liquidación no encontrada")]
+        [RequiredReturn(typeof(Lodging), ErrorMessage = "Liquidación no encontrada.")]
         private async Task<Lodging> GetLodgingById(int id, CancellationToken cancellation)
         {
             return await _lodgingRepository.GetWhere(lodging => lodging.Id == id, cancellation);
@@ -44,6 +50,16 @@ namespace Logic
         {
             await GetLodgingById(id, cancellation);
             await _lodgingRepository.RemoveWhere(lodging => lodging.Id == id, cancellation);
+        }
+
+        public IEnumerable<string> GetAvailableGuestTypes()
+        {
+            return new[] { "Particular", "Miembro", "Premium" };
+        }
+
+        public IEnumerable<string> GetAvailableRooms()
+        {
+            return new[] { "Familiar", "Sencilla", "Doble", "Suite", };
         }
     }
 }

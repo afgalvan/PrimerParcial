@@ -26,7 +26,7 @@ namespace Data
         {
             List<TEntity> entitiesUpdated = (await GetAll(cancellation)).ToList();
             entitiesUpdated.Add(entity);
-            await SaveAll(entitiesUpdated, cancellation);
+            await AddAll(entitiesUpdated, cancellation);
         }
 
         public async Task<IEnumerable<TEntity>> GetAll(CancellationToken cancellation)
@@ -38,7 +38,7 @@ namespace Data
         {
             IEnumerable<TEntity> removedEntityCollection = (await GetAll(cancellation))
                 .Where(entity => !predicate(entity));
-            await SaveAll(removedEntityCollection, cancellation);
+            await AddAll(removedEntityCollection, cancellation);
         }
 
         public async Task<TEntity?> GetWhere(Func<TEntity, bool> predicate,
@@ -47,7 +47,7 @@ namespace Data
             return (await GetAll(cancellation)).FirstOrDefault(predicate);
         }
 
-        private async Task SaveAll(IEnumerable<TEntity> entities,
+        private async Task AddAll(IEnumerable<TEntity> entities,
             CancellationToken cancellation)
         {
             var updateContent = new UpdateContent<TEntity>(_filePath, entities);
