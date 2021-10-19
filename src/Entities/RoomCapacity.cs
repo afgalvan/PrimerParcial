@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Linq;
 
 namespace Entities
 {
@@ -21,7 +22,7 @@ namespace Entities
             _ => 0
         };
 
-        public static string GetString(this RoomCapacity roomCapacity) => roomCapacity switch
+        public static string AsString(this RoomCapacity roomCapacity) => roomCapacity switch
         {
             RoomCapacity.Familiar => "Familiar",
             RoomCapacity.Simple => "Sencilla",

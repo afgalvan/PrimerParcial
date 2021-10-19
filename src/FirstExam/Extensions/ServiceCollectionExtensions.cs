@@ -6,7 +6,6 @@ using Logic;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Presentation;
-using Presentation.UIBuilder;
 
 namespace FirstExam.Extensions
 {
@@ -32,9 +31,7 @@ namespace FirstExam.Extensions
 
         public static void AddPresentationDependencies(this IServiceCollection services)
         {
-            services.AddTransient<BoxBuilder>();
-            services.AddScoped<MenuBuilder>();
-            services.AddHostedService<ConsoleApp>();
+            services.AddSingleton<MainWindow>();
         }
     }
 }

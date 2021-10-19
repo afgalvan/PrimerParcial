@@ -5,11 +5,9 @@ namespace Presentation.Filters
     [AttributeUsage(AttributeTargets.Method)]
     public class ErrorHandlingAttribute : Attribute
     {
-        protected static void WriteError(string message)
+        protected static void DisplayError(string title, string message)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Error: {message}");
-            Console.ResetColor();
+            MaterialDialog.ShowError(title, message);
         }
     }
 }
