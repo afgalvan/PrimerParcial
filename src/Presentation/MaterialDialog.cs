@@ -1,3 +1,5 @@
+using System.Windows;
+
 namespace Presentation
 {
     public static class MaterialDialog
@@ -13,7 +15,8 @@ namespace Presentation
         {
             var messageBox =
                 new MessageBoxCustom(title, message, MessageType.Error, MessageButtons.Ok);
-            messageBox.ShowDialog();
+            // messageBox.ShowDialog();
+            MessageBox.Show(message);
         }
 
         public static void ShowWarning(string title, string message)

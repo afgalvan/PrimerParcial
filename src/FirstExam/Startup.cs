@@ -15,10 +15,10 @@ namespace FirstExam
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureDbContext(Configuration);
             services.AddDataDependencies();
             services.AddLogicDependencies();
             services.AddPresentationDependencies();
-            Configuration.GetReloadToken();
         }
     }
 }

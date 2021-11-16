@@ -12,6 +12,8 @@ namespace Logic
     public class LodgingService
     {
         private readonly ILodgingRepository _lodgingRepository;
+        private readonly string[] _availableGuestTypes = { "Particular", "Miembro", "Premium" };
+        private readonly string[] _availableRooms = { "Familiar", "Sencilla", "Doble", "Suite", };
 
         public LodgingService(ILodgingRepository lodgingRepository)
         {
@@ -30,36 +32,30 @@ namespace Logic
             {
                 throw new InvalidArgumentException("Días de estancia inválidos");
             }
-            lodging.Id = await GenerateId(cancellation);
-            await _lodgingRepository.Add(lodging, cancellation);
-        }
 
-        private async Task<int> GenerateId(CancellationToken cancellation)
-        {
-            IEnumerable<Lodging> lodgings = await _lodgingRepository.GetAll(cancellation);
-            return lodgings.Any() ? lodgings.Last().Id + 1 : 0;
+            await _lodgingRepository.Add(lodging, cancellation);
         }
 
         [RequiredReturn(typeof(Lodging), ErrorMessage = "Liquidación no encontrada.")]
         private async Task<Lodging> GetLodgingById(int id, CancellationToken cancellation)
         {
-            return await _lodgingRepository.GetWhere(lodging => lodging.Id == id, cancellation);
+            return await _lodgingRepository.GetById(id, cancellation);
         }
 
         public async Task DeleteById(int id, CancellationToken cancellation)
         {
             await GetLodgingById(id, cancellation);
-            await _lodgingRepository.RemoveWhere(lodging => lodging.Id == id, cancellation);
+            await _lodgingRepository.RemoveById(id, cancellation);
         }
 
         public IEnumerable<string> GetAvailableGuestTypes()
         {
-            return new[] { "Particular", "Miembro", "Premium" };
+            return _availableGuestTypes;
         }
 
         public IEnumerable<string> GetAvailableRooms()
         {
-            return new[] { "Familiar", "Sencilla", "Doble", "Suite", };
+            return _availableRooms;
         }
     }
 }

@@ -1,25 +1,30 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Entities
 {
     public abstract class Lodging
     {
-        public int          Id           { get; set; }
+        [Key]
+        public int Id { get; set; }
+
         public int          PeopleAmount { get; set; }
         public DateTime     EntryDate    { get; set; }
         public DateTime     ExitDate     { get; set; }
         public RoomCapacity RoomCapacity { get; set; }
         public int          StayDays     => (ExitDate - EntryDate).Days;
-        public double RoomPrice => GetRoomPrice();
-        public string GuestType => GetGuestType();
+
+        public double RoomPrice  => GetRoomPrice();
+        [MaxLength(25)]
+        public string GuestType  => GetGuestType();
         public double PriceToPay => ComputePriceToPay();
 
-        private readonly double[] _prices = { 2000, 4000, 6000, 12_000 };
+        private static readonly double[] Prices = { 2000, 4000, 6000, 12_000 };
 
         public double GetRoomPrice()
         {
             int currentRoomIndex = GetRoomIndex();
-            return _prices[currentRoomIndex];
+            return Prices[currentRoomIndex];
         }
 
         private int GetRoomIndex()
